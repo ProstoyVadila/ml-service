@@ -1,5 +1,5 @@
 # === Params ===
-APP_MAIN=ml_service/main.py
+APP_MAIN=main.py
 ENV_FILE=.env
 UV=uv
 ALEMBIC=$(UV) run alembic
