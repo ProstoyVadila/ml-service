@@ -17,3 +17,6 @@ wheels/
 
 # Linters
 .ruff_cache/
+
+# Logs
+logs/

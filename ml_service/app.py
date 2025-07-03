@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.lifespan import lifespan
+from ml_service.lifespan import lifespan
 
 
 app = FastAPI(
