@@ -12,6 +12,7 @@ dependencies = [
     "httpx>=0.28.1",
     "loguru>=0.7.3",
     "orjson>=3.10.18",
+    "prometheus-fastapi-instrumentator>=7.1.0",
     "pydantic-settings>=2.10.1",
     "python-dotenv>=1.1.1",
     "sqlalchemy[asyncio]>=2.0.41",

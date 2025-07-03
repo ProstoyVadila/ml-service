@@ -1,0 +1,9 @@
+.git
+.idea
+.mypy_cache
+.ruff_cache
+.pytest_cache
+
+.pre-commit-config.yaml
+.gitlab-ci.yml
+README.md
