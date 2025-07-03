@@ -1,5 +1,3 @@
-import asyncio
-
 from fastapi import FastAPI
 
 from app.lifespan import lifespan
