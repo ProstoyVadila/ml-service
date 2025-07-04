@@ -13,13 +13,27 @@ class Settings(BaseSettings):
 
 
 class PostgresConfig(Settings):
+    """Configuration settings for PostgreSQL database connection."""
+
+    model_config = SettingsConfigDict(env_prefix="POSTGRES_")
+
     user: str = Field(alias="DB_USER", default="postgres")
     password: SecretStr = Field(alias="PASSWORD", default=SecretStr(""))
     dbname: str = Field(alias="DB", default="postgres")
     host: str = Field(alias="HOST", default="localhost")
     port: int = Field(alias="PORT", default=5432)
 
-    model_config = SettingsConfigDict(env_prefix="POSTGRES_")
+    @property
+    def url(self) -> str:
+        """Constructs the PostgreSQL connection URL."""
+        return (
+            f"postgresql+asyncpg://{self.user}:{self.password.get_secret_value()}"
+            f"@{self.host}:{self.port}/{self.dbname}"
+        )
+
+    def __str__(self) -> str:
+        """Returns the connection URL as a string."""
+        return self.url
 
 
 class BaseConfig(Settings):
