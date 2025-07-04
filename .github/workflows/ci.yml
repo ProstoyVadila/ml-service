@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -13,11 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: "3.13"
 
       - name: Cache uv dependencies
         uses: actions/cache@v4
@@ -31,14 +30,14 @@ jobs:
       - name: Install uv
         run: pip install uv
 
-
       - name: Install dependencies
         run: uv pip install --system -e ".[dev]"
 
+      - name: Install dev tools
+        run: uv tools sync
 
       - name: Lint with ruff
         run: uv run ruff check .
-
 
       - name: Run tests
         run: uv run pytest
