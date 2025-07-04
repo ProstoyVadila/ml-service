@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from ml_service.lifespan import lifespan
+from ml_service.api.router import router
 
 
 app = FastAPI(
@@ -11,3 +12,5 @@ app = FastAPI(
 )
 
 Instrumentator().instrument(app).expose(app)
+
+app.include_router(router)
