@@ -48,20 +48,36 @@ class ThrottlingConfig(Settings):
     rate_limit_per_minute: int = Field(alias="RATE_LIMIT_PER_MINUTE", default=60)
 
 
+class AppConfig(Settings):
+    """Application configuration settings."""
+
+    model_config = SettingsConfigDict(env_prefix="APP_")
+
+    name: str = Field(alias="NAME", default="autocare-ml-service")
+    version: str = Field(alias="VERSION", default="0.0.1")
+    host: str = Field(alias="HOST", default="0.0.0.0")
+    port: int = Field(alias="PORT", default=8000)
+    workers: int = Field(alias="WORKERS", default=get_workers())
+
+
+class LoggingConfig(Settings):
+    """Configuration settings for logging."""
+
+    model_config = SettingsConfigDict(env_prefix="LOG_")
+
+    level: str = Field(alias="LEVEL", default="DEBUG")
+    file: str = Field(alias="FILE", default="")
+
+
 class BaseConfig(Settings):
     """Base configuration settings."""
 
     # General settings
-    app_name: str = Field(alias="APP_NAME", default="autocare-ml-service")
-    app_version: str = Field(alias="APP_VERSION", default="0.0.1")
-    host: str = Field(alias="APP_HOST", default="0.0.0.0")
-    port: int = Field(alias="APP_PORT", default=8000)
-    workers: int = Field(alias="APP_WORKERS", default=get_workers())
-    log_level: str = Field(alias="LOG_LEVEL", default="DEBUG")
-    log_file: str = Field(alias="LOG_FILE", default="")
     is_prod: bool = Field(alias="IS_PROD", default=False)
-    database: PostgresConfig = PostgresConfig()
+    app: AppConfig = AppConfig()
+    log: LoggingConfig = LoggingConfig()
     throttling: ThrottlingConfig = ThrottlingConfig()
+    database: PostgresConfig = PostgresConfig()
 
     @property
     def reload(self) -> bool:

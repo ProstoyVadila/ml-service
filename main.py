@@ -12,9 +12,9 @@ if __name__ == "__main__":
     logger.warning(config)
     uvicorn.run(
         "ml_service.app:app",
-        host=config.host,
-        port=config.port,
-        workers=config.workers,
+        host=config.app.host,
+        port=config.app.port,
+        workers=config.app.workers,
         reload=config.reload,
         log_config=None,  # Disable Uvicorn's default logging config to use our custom logger
     )

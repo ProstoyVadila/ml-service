@@ -44,13 +44,13 @@ else:
     )
 
 logger.remove()
-logger.add(sys.stdout, level=config.log_level, format=LOG_FORMAT, enqueue=True)
+logger.add(sys.stdout, level=config.log.level, format=LOG_FORMAT, enqueue=True)
 
-if config.log_file:
-    Path(config.log_file).parent.mkdir(parents=True, exist_ok=True)
+if config.log.file:
+    Path(config.log.file).parent.mkdir(parents=True, exist_ok=True)
     logger.add(
-        sink=config.log_file,
-        level=config.log_level,
+        sink=config.log.file,
+        level=config.log.level,
         format=LOG_FORMAT,
         rotation="10 MB",
         retention="7 days",
