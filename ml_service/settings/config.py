@@ -1,4 +1,4 @@
-from pydantic import Field
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -14,7 +14,7 @@ class Settings(BaseSettings):
 
 class PostgresConfig(Settings):
     user: str = Field(alias="DB_USER", default="postgres")
-    password: str = Field(alias="PASSWORD", default="")
+    password: SecretStr = Field(alias="PASSWORD", default=SecretStr(""))
     dbname: str = Field(alias="DB", default="postgres")
     host: str = Field(alias="HOST", default="localhost")
     port: int = Field(alias="PORT", default=5432)
