@@ -34,7 +34,7 @@ jobs:
         run: uv pip install --system -e ".[dev]"
 
       - name: Install dev tools
-        run: uv tools sync
+        run: uv tool sync
 
       - name: Lint with ruff
         run: uv run ruff check .
