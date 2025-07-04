@@ -33,7 +33,7 @@ jobs:
 
 
       - name: Install dependencies
-        run: uv pip install -e ".[dev]"
+        run: uv pip install --system -e ".[dev]"
 
 
       - name: Lint with ruff
