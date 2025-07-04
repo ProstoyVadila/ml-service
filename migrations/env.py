@@ -1,7 +1,5 @@
 import asyncio
-import os
 
-from dotenv import load_dotenv
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
@@ -9,10 +7,10 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from ml_service.settings.logger import logger
+from ml_service.settings.config import PostgresConfig
 
 logger.info("Alembic environment starting up...")
 
-load_dotenv()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -42,7 +40,8 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = os.getenv("DATABASE_URL")
+    url = PostgresConfig().url
+    logger.info(f"Running migrations offline with URL: {url}")
     if not url:
         raise RuntimeError("DATABASE_URL is not set")
     context.configure(
