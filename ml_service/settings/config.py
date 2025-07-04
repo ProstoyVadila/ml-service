@@ -1,6 +1,8 @@
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from ml_service.utils.workers import get_workers
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -52,11 +54,19 @@ class BaseConfig(Settings):
     # General settings
     app_name: str = Field(alias="APP_NAME", default="autocare-ml-service")
     app_version: str = Field(alias="APP_VERSION", default="0.0.1")
+    host: str = Field(alias="APP_HOST", default="0.0.0.0")
+    port: int = Field(alias="APP_PORT", default=8000)
+    workers: int = Field(alias="APP_WORKERS", default=get_workers())
     log_level: str = Field(alias="LOG_LEVEL", default="DEBUG")
     log_file: str = Field(alias="LOG_FILE", default="")
     is_prod: bool = Field(alias="IS_PROD", default=False)
     database: PostgresConfig = PostgresConfig()
     throttling: ThrottlingConfig = ThrottlingConfig()
+
+    @property
+    def reload(self) -> bool:
+        """Determines if the application should reload based on the environment."""
+        return not self.is_prod
 
 
 config = BaseConfig()
