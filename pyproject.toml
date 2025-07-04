@@ -27,3 +27,7 @@ dev = [
     "pytest-asyncio>=1.0.0",
     "pytest-cov>=6.2.1",
 ]
+
+
+[tool.setuptools.packages.find]
+include = ["ml_service*"]
