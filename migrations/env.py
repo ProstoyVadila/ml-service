@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from ml_service.settings.logger import logger
-from ml_service.settings.config import PostgresConfig
+from ml_service.settings.config import config as app_config
 
 logger.info("Alembic environment starting up...")
 
@@ -40,7 +40,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = PostgresConfig().url
+    url = app_config.database.url
     logger.info(f"Running migrations offline with URL: {url}")
     if not url:
         raise RuntimeError("DATABASE_URL is not set")
