@@ -1,12 +1,10 @@
 import sys
-import os
 import logging
 from pathlib import Path
+
 from loguru import logger
 
-LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
-LOG_FILE = os.getenv("LOG_FILE")
-IS_PROD = os.getenv("IS_PROD", "false").lower() == "true"
+from ml_service.settings.config import config
 
 
 class InterceptHandler(logging.Handler):
@@ -26,7 +24,7 @@ class InterceptHandler(logging.Handler):
         )
 
 
-if IS_PROD:
+if config.is_prod:
     LOG_FORMAT = (
         "{{"
         '"time": "{time:YYYY-MM-DDTHH:mm:ss.SSSZ}", '
@@ -46,13 +44,13 @@ else:
     )
 
 logger.remove()
-logger.add(sys.stdout, level=LOG_LEVEL, format=LOG_FORMAT, enqueue=True)
+logger.add(sys.stdout, level=config.log_level, format=LOG_FORMAT, enqueue=True)
 
-if LOG_FILE:
-    Path(LOG_FILE).parent.mkdir(parents=True, exist_ok=True)
+if config.log_file:
+    Path(config.log_file).parent.mkdir(parents=True, exist_ok=True)
     logger.add(
-        LOG_FILE,
-        level=LOG_LEVEL,
+        sink=config.log_file,
+        level=config.log_level,
         format=LOG_FORMAT,
         rotation="10 MB",
         retention="7 days",
@@ -64,4 +62,6 @@ if LOG_FILE:
 logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
 
 for name in ("uvicorn", "uvicorn.error", "uvicorn.access", "fastapi"):
-    logging.getLogger(name).handlers = [InterceptHandler()]
+    log = logging.getLogger(name)
+    log.handlers = [InterceptHandler()]
+    log.propagate = False
