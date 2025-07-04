@@ -4,5 +4,11 @@ from prometheus_client import Counter
 
 
 class Counters(Enum):
-    timeouts = Counter("timeouts", "Number of timeouts")
-    exceptions = Counter("exceptions", "Number of exceptions")
+    REJECTED_REQUESTS = Counter(
+        "rejected_requests", "Number of rejected requests due to throttling"
+    )
+    SUCCESSFUL_REQUESTS = Counter(
+        "successful_requests", "Number of successfully processed requests"
+    )
+    TIMEOUTS = Counter("timeouts", "Number of timeouts")
+    EXCEPTIONS = Counter("exceptions", "Number of exceptions")

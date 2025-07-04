@@ -8,6 +8,7 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 from starlette.responses import JSONResponse
 
 from ml_service.settings.config import config
+from ml_service.settings.metrics import Counters
 
 
 class ThrottlingMiddleware(BaseHTTPMiddleware):
@@ -47,10 +48,12 @@ class ThrottlingMiddleware(BaseHTTPMiddleware):
         ]
 
         if len(self.requests[client_ip]) >= self.rate_limit:
+            Counters.REJECTED_REQUESTS.value.inc()
             return JSONResponse(
                 status_code=429,
                 content={"detail": "Too Many Requests"},
             )
 
         self.requests[client_ip].append(request_time)
+        Counters.SUCCESSFUL_REQUESTS.value.inc()
         return await call_next(request)
