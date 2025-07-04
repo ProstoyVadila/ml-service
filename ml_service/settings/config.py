@@ -38,6 +38,14 @@ class PostgresConfig(Settings):
         return self.url
 
 
+class ThrottlingConfig(Settings):
+    """Configuration for throttling middleware."""
+
+    model_config = SettingsConfigDict(env_prefix="THROTTLING_")
+
+    rate_limit_per_minute: int = Field(alias="RATE_LIMIT_PER_MINUTE", default=60)
+
+
 class BaseConfig(Settings):
     """Base configuration settings."""
 
@@ -48,6 +56,7 @@ class BaseConfig(Settings):
     log_file: str = Field(alias="LOG_FILE", default="")
     is_prod: bool = Field(alias="IS_PROD", default=False)
     database: PostgresConfig = PostgresConfig()
+    throttling: ThrottlingConfig = ThrottlingConfig()
 
 
 config = BaseConfig()
