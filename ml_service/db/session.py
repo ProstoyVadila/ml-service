@@ -6,15 +6,14 @@ from ml_service.settings.config import PostgresConfig
 def create_async_session(
     config: PostgresConfig | None = None,
     *,
-    pool_size: int = 16,
     echo: bool = False,
 ) -> async_sessionmaker:
     """Creates an asynchronous session maker for the PostgreSQL database."""
     if config is None:
         config = PostgresConfig()
         non_autocommit_engine = create_async_engine(
-            config.url,
-            pool_size=pool_size,
+            url=config.url,
+            pool_size=config.pool_size,
             pool_pre_ping=True,
             echo=echo,
         )
@@ -34,3 +33,11 @@ def create_async_session(
         autocommit=False,
         expire_on_commit=False,
     )
+
+
+session_factory = create_async_session()
+
+
+async def get_session():
+    async with session_factory() as session:
+        yield session

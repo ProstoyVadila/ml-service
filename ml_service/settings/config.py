@@ -23,6 +23,8 @@ class PostgresConfig(Settings):
     host: str = Field(alias="HOST", default="localhost")
     port: int = Field(alias="PORT", default=5432)
 
+    pool_size: int = Field(alias="POOL_SIZE", default=16)
+
     @property
     def url(self) -> str:
         """Constructs the PostgreSQL connection URL."""
