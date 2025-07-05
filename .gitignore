@@ -23,3 +23,6 @@ logs/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# Postgres data
+postgres_data/
