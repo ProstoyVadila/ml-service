@@ -30,7 +30,7 @@ install:
 	@$(UV) pip install --system
 
 upgrade-deps:
-	@$(UV) pip compile pyproject.toml --upgrade --all-extras
+	@$(UV) sync --upgrade
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -r {} +
