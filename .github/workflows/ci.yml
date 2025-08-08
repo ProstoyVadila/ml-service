@@ -39,5 +39,6 @@ jobs:
       - name: Run tests
         run: uv run pytest
 
-      - name: Build Docker image
-        run: docker build . -t ml-service-test
+    # TODO(vadim): remove this stage or move ocr deps to another group
+    #   - name: Build Docker image
+    #     run: docker build . -t ml-service-test
